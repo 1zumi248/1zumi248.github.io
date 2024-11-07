@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ark_Roguelike</title>
+    <style>
+        @font-face {
+        font-family: 'MyCustomFont_1';
+        src: url('./font/ZiTiChuanQiTeZhanTi-MianFeiShangYong-2.ttf') format('woff2'); /* Super Modern Browsers */
+        font-weight: normal;
+        font-style: normal;
+        }
+        /* 简单的CSS样式，用于美化导航栏和其他元素 */
+        
+        /*body{
+            background-image: url("img/back.jpg");
+        }*/
+        #navigator {
+            background-color: #b92366;
+            overflow: hidden;
+            height:100px;
+        }
+        #navigator div > h1 {
+            position: relative;
+            color: #b92366;
+            font-family: MyCustomFont_1;
+            font-size: 60px;
+            left: 80px;
+            bottom: 50px;
+            text-shadow: 2px 2px 0 #fff, /* 添加白色阴影 */
+                 -2px -2px 0 #fff,
+                  2px -2px 0 #fff,
+                 -2px 2px 0 #fff;
+        }
+
+        #navigator .head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+        }
+
+        #navigator ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        #navigator li {
+            position: relative;
+            bottom: 34px;
+            margin: 0;
+        }
+
+        #navigator li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        #navigator li a:hover {
+            background-color: #0e0682;
+        }
+
+        /* 添加#thPast部分的样式 */
+        #thPast {
+            display: flex;
+            
+            flex-direction: column; /* 设置为列方向，使图片从上到下排列 */
+            align-items: center; /* 可选：使图片在水平方向上居中 */
+            padding: 20px; /* 设置内边距 */
+        }
+
+        /* 在原有CSS的基础上添加以下部分 */
+        #thPast img {
+            max-width: 100%;
+            height: auto;
+            z-index: 1;
+        }
+        section>p{
+            position: relative;
+            bottom: 2300px;
+            left: 660px;
+            font-size: 100px;
+            font-weight: bold;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <section id="navigator">
+        <header class="head">
+            <div id="title">
+                <h1>鲜蔬杯</h1>
+            </div>
+            <ul>
+                <li><a href="#home">首页</a></li>
+                <li><a href="#rules">规则</a></li>
+                <li><a href="#tools">比赛助手</a></li>
+                <li><a href="#today's star">肉鸽高手？</a></li>
+            </ul>
+        </header>
+    </section>
+    <script>
+    
+    </script>
+</body>
+</html>
