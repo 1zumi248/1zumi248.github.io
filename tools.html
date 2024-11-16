@@ -13,9 +13,9 @@
         }
         /* 简单的CSS样式，用于美化导航栏和其他元素 */
         
-        /*body{
-            background-image: url("img/back.jpg");
-        }*/
+        body{
+            background-color: antiquewhite;
+        }
         #navigator {
             background-color: #b92366;
             overflow: hidden;
@@ -90,6 +90,99 @@
             font-weight: bold;
             z-index: -1;
         }
+        /* 模态框的样式 */
+        .modal {
+            display: none; /* 默认隐藏 */
+            position: fixed; /* 固定位置 */
+            z-index: 3; /* 位于其他内容之上 */
+            left: 0;
+            top: 0;
+            width: 100%; /* 全宽 */
+            height: 100%; /* 全高 */
+            overflow: auto; /* 如果内容超出视口，则显示滚动条 */
+            background-color: rgb(0,0,0); /* 背景颜色 */
+            background-color: rgba(0,0,0,0.4); /* 黑色背景，带有40%的不透明度 */
+        }
+ 
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% 的顶部和底部边距，自动水平边距 */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* 宽度 */
+        }
+ 
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+ 
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #randomNumberGenerator{
+            position: relative;
+            left: 100px;
+        }
+        input{
+            height: 40px;
+            width: 200px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 30px;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        #random{
+            position: relative;
+            right: 12px;
+            height: 50px;
+            width: 210px;
+            background-color: #b92366;
+            font-family:MyCustomFont_1;
+            color: #fff;
+            font-size: 30px;
+        }
+        section label{
+            font-family: MyCustomFont_1;
+            font-size: 30px;
+        }
+        section>h2{
+            position: relative;
+            right: 100px;
+            border-left: 10px;
+            background: linear-gradient(to right, #d6107d, #feb47b);
+        }
+        #randomNumbersList{
+            display: flex;
+            align-items:normal;
+            position: relative;
+            gap: 30px;
+            bottom: 80px;
+            font-size: 40px;     
+        }
+        li{
+            list-style-type: none; 
+        }
+        #missionBox p {
+            font-family: 'Arial', sans-serif; 
+            font-size: 25px;
+            color: rgb(188, 71, 7); 
+        }
+        #check{
+            position:absolute;
+            left: 320px;
+            bottom: 439px;
+            background-color: #b92366;
+            font-family:MyCustomFont_1;
+            color: #fff;
+            font-size: 30px;
+        }
     </style>
 </head>
 <body>
@@ -99,15 +192,127 @@
                 <h1>鲜蔬杯</h1>
             </div>
             <ul>
-                <li><a href="#home">首页</a></li>
-                <li><a href="#rules">规则</a></li>
-                <li><a href="#tools">比赛助手</a></li>
-                <li><a href="#today's star">肉鸽高手？</a></li>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="#" onclick="openModal()">规则</a></li> <!-- 修改这里，添加onclick事件 -->
+                <li><a href="tools.html">工具页面</a></li>
+                <li><a href="winner.html">肉鸽高手？</a></li>
             </ul>
         </header>
     </section>
+    <!-- 模态框的结构 -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>比赛规则</h2>
+            <p>开局方式：</p>
+            <p>无特殊情况就蓝图开局（不能拿美愿）然后选择随心所欲</p>
+            <p>有两种招募规则</p>
+            <p>1.在每一次要招募六星干员的时候都要进行roll点，点数最大范围为已经精二的六星数量+1（1用作许愿池功能，可以将你想要招募的干员概率加一，即该干员占两个点数），不ban干员。临时招募和六星以下可直接选</p>
+            <p>2.每次招募掷一次六面骰（随机数范围1-6），投数大于3即可招募想要的干员（ban EW和logos），如果失败只能招募预备干员。投到1只能放弃招募，投到6下一次可直接招募，不用roll点（不能以欣赏皮肤为由招募三星干员！）</p>
+            <h2>计分规则</h2>
+            <p>基础分就是游戏界面结算时的分数</p>
+            <p>附加规则：每个人在开局的时候抽取三个任务（还没来得急划分任务难度），每完成一个任务可以在基础分上*1.13，吗，每有一个任务未完成，基础分*0.87</p>
+            <p>拿上滚动先祖并且通关结局，每一个结局在基础分上*1.2，如果在不生吃的情况下通过四结局，基础分*1.4</p>
+            <p>任务得自己想办法完成，账号的环境算在任务难度之中（可能会出现缺乏对应干员的情况，得自己想办法解决）</p>
+            <p>一切解释权归主办方所有</p>
+        </div>
+    </div>
+    <section id="randomNumberGenerator">
+        <h2>赛博骰子（自定义版）</h2>
+        <label for="minNum">最小值:</label>
+        <input type="number" id="minNum" min="1" required>
+        <br>
+        <label for="maxNum">最大值:</label>
+        <input type="number" id="maxNum" min="1" required>
+        <br>
+        <label for="numCount">有几个:</label>
+        <input type="number" id="numCount" min="1" required>
+        <br>
+        <button onclick="generateRandomNumbers()" id="random">生成随机数</button>
+        <p id="errorMessage" style="color:red;"></p>
+        <ul id="randomNumbersList"></ul>
+    </section>
+    <br>
+    <button id="check">抽取任务</button>
+    <div id="missionBox"></div>
     <script>
-    
+    function generateRandomNumbers() {
+    var minNum = parseInt(document.getElementById('minNum').value);
+    var maxNum = parseInt(document.getElementById('maxNum').value);
+    var numCount = parseInt(document.getElementById('numCount').value);
+    var errorMessage = document.getElementById('errorMessage');
+    var randomNumbersList = document.getElementById('randomNumbersList');
+
+    // 清空之前的错误消息和随机数列表
+    errorMessage.textContent = '';
+    randomNumbersList.innerHTML = '';
+
+    // 检查生成数量是否超过范围
+    if (numCount > (maxNum - minNum + 1)) {
+        alert('错误: 生成数量不能超过最大值和最小值之间的整数范围。');
+        return;
+    }
+
+    // 生成随机数并添加到列表中
+    var randomNumbers = [];
+    while (randomNumbers.length < numCount) {
+        var randomNum = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+        if (!randomNumbers.includes(randomNum)) { // 确保每个随机数唯一
+            randomNumbers.push(randomNum);
+        }
+    }
+
+    // 显示生成的随机数
+    randomNumbers.forEach(function(number) {
+        var listItem = document.createElement('li');
+        listItem.textContent = number;
+        randomNumbersList.appendChild(listItem);
+    });
+    }
+    function openModal() {
+        document.getElementById('myModal').style.display = 'block'; // 显示模态框
+    }
+    function closeModal() {
+        document.getElementById('myModal').style.display = 'none'; // 隐藏模态框
+    }
+    //任务实现模块
+    var missions = [
+    {id: 1, content: '名称：拿来吧你！背景：（）描述：抢劫一次坎诺特'},
+    {id: 2, content: '名称：只要...能到达..那个地方.....背景：（） 描述：在蓝门里击杀三次怪物（怪物需要完全踏进蓝门）'},
+    {id: 3, content:'名称：（）背景（）描述：将至少三只怪物推入坑中（无论什么手段）' },
+    {id: 4, content:'名称：（）背景：描述：在年代之刺产生的印痕中摆放我方生命值最低的干员（可以是高台最低的也可以是地面最低的），并让他/她/它在这一整局中活下来（不能打掉这个刺）' },
+    {id: 5, content:'名称：（）背景：描述：在第一层购物结束后（不能花光，保留的源石锭>5），通过特殊手段将自己的源石锭归零（在归零一次前不能买东西，不能存钱，如果在拿到四结局任务藏品时才第一次归零，则视为任务失败）' },
+    {id: 6, content:'名称：算是为了我，对他/她/它使用血怒吧！背景：（）描述：为我方攻击力最低的干员上一次血怒，并让该干员击倒一名敌人' },
+    {id: 7, content:'名称：信不信我让你飞起来！！背景：（）描述：在浮空状态击杀三名以上的敌人' },
+    {id: 8, content:'名称：前有绝景，敬请见证！ 背景：（）描述：在神出鬼没，建制，洞天福地，外道中任选一关进行挑战（如果运气实在太差，一整局都没碰到，紧急火力小队，计划耕种，寄人城池下也是ok的）' },
+    {id: 9, content:'名称：（）背景：（）描述：（）将合成二结局藏品的两缕思绪背到第五层boss门前' },
+    {id: 10, content:'名称：明明是我先来的 背景：（）描述：你只能在第4层及以后精二你抓取的第一个六星' },
+    {id: 11, content:'名称：门外明明是熟悉的味道 背景：（）描述：将同一名干员两次送入“门”中' },
+    {id: 12, content:'名称：恕我拒绝 背景：（）描述：在（不期而遇等事件节点）出现直接离开的选项的时候（如果能选择，前两次选择的时候什么都不拿，如果不能则顺位到下一次选择）' },
+    {id: 13, content:'名称：手动最终防线 背景：（）描述：在一，二，三结局boss门前，将生命值降为一（包括护盾）（鉴于我们到结局的次数比较少，因此道中boss也可以算做boss门前）' },
+    {id: 13, content:'名称：数值正是成王的理由！ 背景：（）描述：在任意一场作战中不开启技能（自动释放类技能禁止），并通过该关卡' },
+    {id: 14, content:'名称：动物之友 背景：（）描述：用任意一名干员（+一名预备干员-先锋）打败熊/鸭/狗/鼠（期间不能有其他干员造成伤害）' },
+    {id: 15, content:'名称：帝王引擎 背景：（）描述：在任意一层（包括树洞里）不遭遇作战' }
+];
+var btn = document.getElementById('check');
+btn.innerText = '抽取任务';
+btn.style.width='210px'
+btn.style.height='50px'
+document.body.appendChild(btn);
+
+// 当用户点击按钮时，抽取一个任务并显示
+var times = 0; // 记录抽取次数
+btn.onclick = function() {
+    if (times < 3) { // 最多抽取三次
+        var randomIndex = Math.floor(Math.random() * missions.length);
+        var mission = missions.splice(randomIndex, 1)[0]; // 从任务数组中移除已抽取的任务
+        document.getElementById('missionBox').innerHTML += '<p>任务'+times+':' + mission.content + '</p>';// 将任务添加到任务框中
+        times++; // 增加抽取次数
+    } else {
+        alert('抽够了，不要再抽了！');
+    }
+};
+
     </script>
 </body>
 </html>
